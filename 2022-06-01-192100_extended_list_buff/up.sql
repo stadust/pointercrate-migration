@@ -9,9 +9,11 @@ SELECT CASE
                    CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            60.0 * EXP(LN(2) * ((50.0 - (demon + 3.2)) * LN(50.0)) / 99.0)
-                       WHEN 20 < demon AND demon <= 55 THEN
-                            -100.0 * (EXP(LN(1.01327) * (demon - 26.489))) + 200.0
+                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)
+                       WHEN 35 < demon AND demon <= 55 THEN
+                            212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071
+                       WHEN 20 < demon AND demon <= 35 THEN
+                            (250 - 83.389) * (EXP(LN(1.0099685) * (2 - demon))) - 31.152
                        WHEN demon <= 20 THEN
                             (250 - 100.39) * (EXP(LN(1.168) * (1 - demon))) + 100.39
                    
@@ -23,9 +25,11 @@ SELECT CASE
                        CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            60.0 * EXP(LN(2) * ((50.0 - (demon + 3.2)) * LN(50.0)) / 99.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
-                       WHEN 20 < demon AND demon <= 55 THEN
-                            (-100.0 * (EXP(LN(1.01327) * (demon - 26.489))) + 200.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                       WHEN 35 < demon AND demon <= 55 THEN
+                            (212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                       WHEN 20 < demon AND demon <= 35 THEN
+                            ((250 - 83.389) * (EXP(LN(1.0099685) * (2 - demon))) - 31.152) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN demon <= 20 THEN
                             ((250 - 100.39) * (EXP(LN(1.168) * (1 - demon))) + 100.39) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                    
