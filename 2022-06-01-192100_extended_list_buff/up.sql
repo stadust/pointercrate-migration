@@ -1,4 +1,3 @@
--- Your SQL goes here
 DROP VIEW players_with_score;
 DROP FUNCTION record_score(FLOAT, FLOAT, FLOAT, FLOAT);
 
@@ -9,7 +8,7 @@ SELECT CASE
                    CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)
+                            (56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)) + 6.273
                        WHEN 35 < demon AND demon <= 55 THEN
                             212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071
                        WHEN 20 < demon AND demon <= 35 THEN
@@ -25,7 +24,7 @@ SELECT CASE
                        CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                            ((56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)) + 6.273) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN 35 < demon AND demon <= 55 THEN
                             (212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN 20 < demon AND demon <= 35 THEN
