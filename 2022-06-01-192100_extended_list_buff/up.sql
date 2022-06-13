@@ -1,6 +1,3 @@
-DROP VIEW players_with_score;
-DROP FUNCTION record_score(FLOAT, FLOAT, FLOAT, FLOAT);
-
 CREATE FUNCTION record_score(progress FLOAT, demon FLOAT, list_size FLOAT, requirement FLOAT) RETURNS FLOAT AS
 $record_score$
 SELECT CASE
