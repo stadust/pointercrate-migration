@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4
--- Dumped by pg_dump version 13.4
+-- Dumped from database version 14.3
+-- Dumped by pg_dump version 14.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -41,7 +41,7 @@ CREATE TYPE public.continent AS ENUM (
     'Africa',
     'North America',
     'South America',
-    'Middle America'
+    'Central America'
 );
 
 
@@ -175,6 +175,79 @@ $$;
 
 
 ALTER FUNCTION public.audit_demon_modification() OWNER TO pointercrate;
+
+--
+-- Name: audit_level_comment_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+--
+
+CREATE FUNCTION public.audit_level_comment_addition() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    INSERT INTO level_comment_additions (userid, id) (SELECT id, NEW.id FROM active_user LIMIT 1);
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.audit_level_comment_addition() OWNER TO pointercrate;
+
+--
+-- Name: audit_level_comment_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+--
+
+CREATE FUNCTION public.audit_level_comment_deletion() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    INSERT INTO level_comment_modifications (userid, id, content, visible, progress)
+        (SELECT id, OLD.id, OLD.progress, OLD.content, OLD.visible, OLD.progress
+         FROM active_user LIMIT 1);
+
+    INSERT INTO level_comment_deletions (userid, id)
+        (SELECT id, OLD.id FROM active_user LIMIT 1);
+
+    RETURN NULL;
+END;
+$$;
+
+
+ALTER FUNCTION public.audit_level_comment_deletion() OWNER TO pointercrate;
+
+--
+-- Name: audit_level_comment_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+--
+
+CREATE FUNCTION public.audit_level_comment_modification() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    progress_change SMALLINT;
+    content_change TEXT;
+    visible_change BOOLEAN;
+BEGIN
+    if (OLD.progress <> NEW.progress) THEN
+        progress_change = OLD.progress;
+    END IF;
+
+    IF (OLD.content <> NEW.content) THEN
+        content_change = OLD.content;
+    END IF;
+
+    IF (OLD.visible <> NEW.visible) THEN
+        visible_change = OLD.visible;
+    END IF;
+
+    INSERT INTO level_comment_modifications (userid, id, content, visible, progress)
+        (SELECT id, NEW.id, content_change, visible_change, progress_change
+         FROM active_user LIMIT 1);
+
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.audit_level_comment_modification() OWNER TO pointercrate;
 
 --
 -- Name: audit_player_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
@@ -475,28 +548,28 @@ ALTER FUNCTION public.audit_user_deletion() OWNER TO pointercrate;
 CREATE FUNCTION public.audit_user_modification() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-    DECLARE
-        display_name_change CITEXT;
-        youtube_channel_change BOOLEAN;
-        permissions_change BIT(16);
-    BEGIN
-        IF (OLD.display_name <> NEW.display_name) THEN
-            display_name_change = OLD.display_name;
-        END IF;
+DECLARE
+    display_name_change CITEXT;
+    youtube_channel_change VARCHAR(200);
+    permissions_change BIT(16);
+BEGIN
+    IF (OLD.display_name <> NEW.display_name) THEN
+        display_name_change = OLD.display_name;
+    END IF;
 
-        IF (OLD.youtube_channel <> NEW.youtube_channel) THEN
-            youtube_channel_change = OLD.youtube_channel;
-        END IF;
+    IF (OLD.youtube_channel <> NEW.youtube_channel) THEN
+        youtube_channel_change = OLD.youtube_channel;
+    END IF;
 
-        IF (OLD.permissions <> NEW.permissions) THEN
-            permissions_change = OLD.permissions;
-        END IF;
+    IF (OLD.permissions <> NEW.permissions) THEN
+        permissions_change = OLD.permissions;
+    END IF;
 
-        INSERT INTO user_modifications (userid, id, display_name, youtube_channel, permissions)
+    INSERT INTO user_modifications (userid, id, display_name, youtube_channel, permissions)
         (SELECT id, NEW.member_id, display_name_change, youtube_channel_change, permissions_change FROM active_user LIMIT 1);
 
-        RETURN NEW;
-    END;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -640,12 +713,12 @@ SELECT CASE
            WHEN progress = 100 THEN
                    CASE
                        
-                       WHEN 125 < demon AND demon <= 150 THEN
-                            150.0 * EXP(((1.0 - demon) * LN(1.0 / 30.0)) / -149.0)
-                       WHEN 50 < demon AND demon <= 125 THEN
-                            60 * (EXP(LN(2.333) * ((51.0 - demon) * (LN(30.0) / 99.0)))) + 1.884
-                       WHEN 20 < demon AND demon <= 50 THEN
-                            -100.0 * (EXP(LN(1.01327) * (demon - 26.489))) + 200.0
+                       WHEN 55 < demon AND demon <= 150 THEN
+                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)
+                       WHEN 35 < demon AND demon <= 55 THEN
+                            212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071
+                       WHEN 20 < demon AND demon <= 35 THEN
+                            (250 - 83.389) * (EXP(LN(1.0099685) * (2 - demon))) - 31.152
                        WHEN demon <= 20 THEN
                             (250 - 100.39) * (EXP(LN(1.168) * (1 - demon))) + 100.39
                    
@@ -656,12 +729,12 @@ SELECT CASE
            ELSE
                        CASE
                        
-                       WHEN 125 < demon AND demon <= 150 THEN
-                            150.0 * EXP(((1.0 - demon) * LN(1.0 / 30.0)) / -149.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
-                       WHEN 50 < demon AND demon <= 125 THEN
-                            (60 * (EXP(LN(2.333) * ((51.0 - demon) * (LN(30.0) / 99.0)))) + 1.884) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
-                       WHEN 20 < demon AND demon <= 50 THEN
-                            (-100.0 * (EXP(LN(1.01327) * (demon - 26.489))) + 200.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                       WHEN 55 < demon AND demon <= 150 THEN
+                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                       WHEN 35 < demon AND demon <= 55 THEN
+                            (212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                       WHEN 20 < demon AND demon <= 35 THEN
+                            ((250 - 83.389) * (EXP(LN(1.0099685) * (2 - demon))) - 31.152) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN demon <= 20 THEN
                             ((250 - 100.39) * (EXP(LN(1.168) * (1 - demon))) + 100.39) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                    
@@ -726,7 +799,7 @@ ALTER FUNCTION public.subdivision_ranking_of(country character varying) OWNER TO
 
 CREATE TABLE public.__diesel_schema_migrations (
     version character varying(50) NOT NULL,
-    run_on timestamp without time zone DEFAULT now() NOT NULL
+    run_on timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -748,7 +821,7 @@ ALTER TABLE public.active_user OWNER TO pointercrate;
 --
 
 CREATE TABLE public.audit_log2 (
-    "time" timestamp without time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+    "time" timestamp without time zone DEFAULT (now() AT TIME ZONE 'utc'::text) NOT NULL,
     audit_id integer NOT NULL,
     userid integer NOT NULL
 );
@@ -761,6 +834,7 @@ ALTER TABLE public.audit_log2 OWNER TO pointercrate;
 --
 
 CREATE SEQUENCE public.audit_log2_audit_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -865,44 +939,11 @@ CREATE TABLE public.demons (
 ALTER TABLE public.demons OWNER TO pointercrate;
 
 --
--- Name: players; Type: TABLE; Schema: public; Owner: pointercrate
---
-
-CREATE TABLE public.players (
-    id integer NOT NULL,
-    name public.citext NOT NULL,
-    banned boolean DEFAULT false NOT NULL,
-    nationality character varying(2) DEFAULT NULL::character varying,
-    link_banned boolean DEFAULT false,
-    subdivision character varying(3) DEFAULT NULL::character varying
-);
-
-
-ALTER TABLE public.players OWNER TO pointercrate;
-
---
--- Name: demon_verifier_publisher_join; Type: VIEW; Schema: public; Owner: pointercrate
---
-
-CREATE VIEW public.demon_verifier_publisher_join AS
- SELECT p1.name AS vname,
-    p1.id AS vid,
-    p1.banned AS vbanned,
-    p2.name AS pname,
-    p2.id AS pid,
-    p2.banned AS pbanned
-   FROM ((public.demons
-     JOIN public.players p1 ON ((demons.verifier = p1.id)))
-     JOIN public.players p2 ON ((demons.publisher = p2.id)));
-
-
-ALTER TABLE public.demon_verifier_publisher_join OWNER TO pointercrate;
-
---
 -- Name: demons_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
 --
 
 CREATE SEQUENCE public.demons_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1090,16 +1131,92 @@ CREATE TABLE public.gj_newgrounds_song_meta (
 ALTER TABLE public.gj_newgrounds_song_meta OWNER TO pointercrate;
 
 --
+-- Name: level_comment_additions; Type: TABLE; Schema: public; Owner: pointercrate
+--
+
+CREATE TABLE public.level_comment_additions (
+    id integer NOT NULL
+)
+INHERITS (public.audit_log2);
+
+
+ALTER TABLE public.level_comment_additions OWNER TO pointercrate;
+
+--
+-- Name: level_comment_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+--
+
+CREATE TABLE public.level_comment_deletions (
+    id integer NOT NULL
+)
+INHERITS (public.audit_log2);
+
+
+ALTER TABLE public.level_comment_deletions OWNER TO pointercrate;
+
+--
+-- Name: level_comment_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+--
+
+CREATE TABLE public.level_comment_modifications (
+    id integer NOT NULL,
+    content text,
+    visible boolean,
+    progress smallint
+)
+INHERITS (public.audit_log2);
+
+
+ALTER TABLE public.level_comment_modifications OWNER TO pointercrate;
+
+--
+-- Name: level_comments; Type: TABLE; Schema: public; Owner: pointercrate
+--
+
+CREATE TABLE public.level_comments (
+    id integer NOT NULL,
+    author integer NOT NULL,
+    content text NOT NULL,
+    visible boolean DEFAULT false NOT NULL,
+    progress smallint NOT NULL
+);
+
+
+ALTER TABLE public.level_comments OWNER TO pointercrate;
+
+--
+-- Name: level_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+--
+
+CREATE SEQUENCE public.level_comments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.level_comments_id_seq OWNER TO pointercrate;
+
+--
+-- Name: level_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+--
+
+ALTER SEQUENCE public.level_comments_id_seq OWNED BY public.level_comments.id;
+
+
+--
 -- Name: members; Type: TABLE; Schema: public; Owner: pointercrate
 --
 
 CREATE TABLE public.members (
     member_id integer NOT NULL,
     name text NOT NULL,
-    password_hash text NOT NULL,
-    permissions bit(16) DEFAULT '0000000000000000'::bit(16) NOT NULL,
     display_name text,
     youtube_channel character varying(200) DEFAULT NULL::character varying,
+    password_hash text NOT NULL,
+    permissions bit(16) DEFAULT '0000000000000000'::bit(16) NOT NULL,
     nationality character varying(2) DEFAULT NULL::character varying,
     email_address public.email
 );
@@ -1112,6 +1229,7 @@ ALTER TABLE public.members OWNER TO pointercrate;
 --
 
 CREATE SEQUENCE public.members_member_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1141,6 +1259,22 @@ CREATE TABLE public.nationalities (
 
 
 ALTER TABLE public.nationalities OWNER TO pointercrate;
+
+--
+-- Name: players; Type: TABLE; Schema: public; Owner: pointercrate
+--
+
+CREATE TABLE public.players (
+    id integer NOT NULL,
+    name public.citext NOT NULL,
+    banned boolean DEFAULT false NOT NULL,
+    nationality character varying(2) DEFAULT NULL::character varying,
+    link_banned boolean DEFAULT false,
+    subdivision character varying(3) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.players OWNER TO pointercrate;
 
 --
 -- Name: nations_with_score; Type: VIEW; Schema: public; Owner: pointercrate
@@ -1264,6 +1398,7 @@ ALTER TABLE public.player_modifications OWNER TO pointercrate;
 --
 
 CREATE SEQUENCE public.players_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1386,7 +1521,8 @@ ALTER TABLE public.record_modifications OWNER TO pointercrate;
 CREATE TABLE public.record_notes (
     id integer NOT NULL,
     record integer NOT NULL,
-    content text NOT NULL
+    content text NOT NULL,
+    is_public boolean DEFAULT false NOT NULL
 );
 
 
@@ -1457,6 +1593,7 @@ ALTER TABLE public.record_notes_modifications OWNER TO pointercrate;
 --
 
 CREATE SEQUENCE public.records_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1517,6 +1654,7 @@ ALTER TABLE public.submitters OWNER TO pointercrate;
 --
 
 CREATE SEQUENCE public.submitters_submitter_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1583,7 +1721,7 @@ ALTER TABLE ONLY public.audit_log2 ALTER COLUMN audit_id SET DEFAULT nextval('pu
 -- Name: creator_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.creator_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.creator_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1597,7 +1735,7 @@ ALTER TABLE ONLY public.creator_additions ALTER COLUMN audit_id SET DEFAULT next
 -- Name: creator_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.creator_deletions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.creator_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1611,7 +1749,7 @@ ALTER TABLE ONLY public.creator_deletions ALTER COLUMN audit_id SET DEFAULT next
 -- Name: demon_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.demon_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.demon_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1625,7 +1763,7 @@ ALTER TABLE ONLY public.demon_additions ALTER COLUMN audit_id SET DEFAULT nextva
 -- Name: demon_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.demon_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.demon_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1643,6 +1781,55 @@ ALTER TABLE ONLY public.demons ALTER COLUMN id SET DEFAULT nextval('public.demon
 
 
 --
+-- Name: level_comment_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
+
+
+--
+-- Name: level_comment_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
+
+
+--
+-- Name: level_comment_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
+
+
+--
+-- Name: level_comment_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
+
+
+--
+-- Name: level_comment_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
+
+
+--
+-- Name: level_comment_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comment_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
+
+
+--
+-- Name: level_comments id; Type: DEFAULT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comments ALTER COLUMN id SET DEFAULT nextval('public.level_comments_id_seq'::regclass);
+
+
+--
 -- Name: members member_id; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
@@ -1653,7 +1840,7 @@ ALTER TABLE ONLY public.members ALTER COLUMN member_id SET DEFAULT nextval('publ
 -- Name: player_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.player_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.player_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1674,7 +1861,7 @@ ALTER TABLE ONLY public.player_claims ALTER COLUMN id SET DEFAULT nextval('publi
 -- Name: player_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.player_deletions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.player_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1688,7 +1875,7 @@ ALTER TABLE ONLY public.player_deletions ALTER COLUMN audit_id SET DEFAULT nextv
 -- Name: player_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.player_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.player_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1709,7 +1896,7 @@ ALTER TABLE ONLY public.players ALTER COLUMN id SET DEFAULT nextval('public.play
 -- Name: record_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1723,7 +1910,7 @@ ALTER TABLE ONLY public.record_additions ALTER COLUMN audit_id SET DEFAULT nextv
 -- Name: record_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_deletions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1737,7 +1924,7 @@ ALTER TABLE ONLY public.record_deletions ALTER COLUMN audit_id SET DEFAULT nextv
 -- Name: record_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1758,7 +1945,7 @@ ALTER TABLE ONLY public.record_notes ALTER COLUMN id SET DEFAULT nextval('public
 -- Name: record_notes_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_notes_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_notes_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1772,7 +1959,7 @@ ALTER TABLE ONLY public.record_notes_additions ALTER COLUMN audit_id SET DEFAULT
 -- Name: record_notes_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_notes_deletions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_notes_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1786,7 +1973,7 @@ ALTER TABLE ONLY public.record_notes_deletions ALTER COLUMN audit_id SET DEFAULT
 -- Name: record_notes_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.record_notes_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.record_notes_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1807,7 +1994,7 @@ ALTER TABLE ONLY public.records ALTER COLUMN id SET DEFAULT nextval('public.reco
 -- Name: submitter_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.submitter_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.submitter_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1828,7 +2015,7 @@ ALTER TABLE ONLY public.submitters ALTER COLUMN submitter_id SET DEFAULT nextval
 -- Name: user_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.user_additions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.user_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1842,7 +2029,7 @@ ALTER TABLE ONLY public.user_additions ALTER COLUMN audit_id SET DEFAULT nextval
 -- Name: user_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.user_deletions ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.user_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1856,7 +2043,7 @@ ALTER TABLE ONLY public.user_deletions ALTER COLUMN audit_id SET DEFAULT nextval
 -- Name: user_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
 --
 
-ALTER TABLE ONLY public.user_modifications ALTER COLUMN "time" SET DEFAULT timezone('utc'::text, now());
+ALTER TABLE ONLY public.user_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
@@ -1984,6 +2171,14 @@ ALTER TABLE ONLY public.gj_newgrounds_song_meta
 
 ALTER TABLE ONLY public.gj_newgrounds_song
     ADD CONSTRAINT gj_newgrounds_song_pkey PRIMARY KEY (song_id);
+
+
+--
+-- Name: level_comments level_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comments
+    ADD CONSTRAINT level_comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -2127,6 +2322,27 @@ CREATE TRIGGER demon_modification_trigger AFTER UPDATE ON public.demons FOR EACH
 
 
 --
+-- Name: level_comments level_comment_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+--
+
+CREATE TRIGGER level_comment_addition_trigger AFTER INSERT ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_addition();
+
+
+--
+-- Name: level_comments level_comment_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+--
+
+CREATE TRIGGER level_comment_deletion_trigger AFTER DELETE ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_deletion();
+
+
+--
+-- Name: level_comments level_comment_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+--
+
+CREATE TRIGGER level_comment_modification_trigger AFTER UPDATE ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_modification();
+
+
+--
 -- Name: players player_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
 --
 
@@ -2234,6 +2450,14 @@ ALTER TABLE ONLY public.creators
 
 
 --
+-- Name: demons demons_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.demons
+    ADD CONSTRAINT demons_level_id_fkey FOREIGN KEY (level_id) REFERENCES public.gj_level(level_id);
+
+
+--
 -- Name: demons demons_publisher_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
 --
 
@@ -2258,6 +2482,14 @@ ALTER TABLE ONLY public.gj_level_data
 
 
 --
+-- Name: level_comments level_comments_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+--
+
+ALTER TABLE ONLY public.level_comments
+    ADD CONSTRAINT level_comments_author_fkey FOREIGN KEY (author) REFERENCES public.members(member_id);
+
+
+--
 -- Name: members members_nationality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
 --
 
@@ -2270,7 +2502,7 @@ ALTER TABLE ONLY public.members
 --
 
 ALTER TABLE ONLY public.player_claims
-    ADD CONSTRAINT player_claims_member_id_fkey FOREIGN KEY (member_id) REFERENCES public.members(member_id);
+    ADD CONSTRAINT player_claims_member_id_fkey FOREIGN KEY (member_id) REFERENCES public.members(member_id) ON DELETE CASCADE;
 
 
 --
@@ -2278,7 +2510,7 @@ ALTER TABLE ONLY public.player_claims
 --
 
 ALTER TABLE ONLY public.player_claims
-    ADD CONSTRAINT player_claims_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id);
+    ADD CONSTRAINT player_claims_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id) ON DELETE RESTRICT;
 
 
 --
