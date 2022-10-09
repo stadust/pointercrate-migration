@@ -133,44 +133,49 @@ ALTER FUNCTION public.audit_demon_addition() OWNER TO pointercrate;
 CREATE FUNCTION public.audit_demon_modification() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-    DECLARE
-        name_change CITEXT;
-        position_change SMALLINT;
-        requirement_change SMALLINT;
-        video_change VARCHAR(200);
-        verifier_change INT;
-        publisher_change InT;
-    BEGIN
-        IF (OLD.name <> NEW.name) THEN
-            name_change = OLD.name;
-        END IF;
+DECLARE
+    name_change CITEXT;
+    position_change SMALLINT;
+    requirement_change SMALLINT;
+    video_change VARCHAR(200);
+    thumbnail_change TEXT;
+    verifier_change INT;
+    publisher_change INT;
+BEGIN
+    IF (OLD.name <> NEW.name) THEN
+        name_change = OLD.name;
+    END IF;
 
-        IF (OLD.position <> NEW.position) THEN
-            position_change = OLD.position;
-        END IF;
+    IF (OLD.position <> NEW.position) THEN
+        position_change = OLD.position;
+    END IF;
 
-        IF (OLD.requirement <> NEW.requirement) THEN
-            requirement_change = OLD.requirement;
-        END IF;
+    IF (OLD.requirement <> NEW.requirement) THEN
+        requirement_change = OLD.requirement;
+    END IF;
 
-        IF (OLD.video <> NEW.video) THEN
-            video_change = OLD.video;
-        END IF;
+    IF (OLD.video <> NEW.video) THEN
+        video_change = OLD.video;
+    END IF;
 
-        IF (OLD.verifier <> NEW.verifier) THEN
-            verifier_change = OLD.verifier;
-        END IF;
+    IF (OLD.thumbnail <> NEW.thumbnail) THEN
+        thumbnail_change = OLD.thumbnail;
+    END IF;
 
-        IF (OLD.publisher <> NEW.publisher) THEN
-            publisher_change = OLD.publisher;
-        END IF;
+    IF (OLD.verifier <> NEW.verifier) THEN
+        verifier_change = OLD.verifier;
+    END IF;
 
-        INSERT INTO demon_modifications (userid, name, position, requirement, video, verifier, publisher, id)
-            (SELECT id, name_change, position_change, requirement_change, video_change, verifier_change, publisher_change, NEW.id
-            FROM active_user LIMIT 1);
+    IF (OLD.publisher <> NEW.publisher) THEN
+        publisher_change = OLD.publisher;
+    END IF;
 
-        RETURN NEW;
-    END;
+    INSERT INTO demon_modifications (userid, name, position, requirement, video, verifier, publisher, thumbnail, id)
+        (SELECT id, name_change, position_change, requirement_change, video_change, verifier_change, publisher_change, thumbnail_change, NEW.id
+         FROM active_user LIMIT 1);
+
+    RETURN NEW;
+END;
 $$;
 
 
@@ -746,6 +751,22 @@ $$;
 ALTER FUNCTION public.record_score(progress double precision, demon double precision, list_size double precision, requirement double precision) OWNER TO pointercrate;
 
 --
+-- Name: set_initial_thumbnail(); Type: FUNCTION; Schema: public; Owner: pointercrate
+--
+
+CREATE FUNCTION public.set_initial_thumbnail() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.thumbnail := 'https://i.ytimg.com/vi/' || SUBSTRING(NEW.video FROM '%v=#"___________#"%' FOR '#') || '/mqdefault.jpg';
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.set_initial_thumbnail() OWNER TO pointercrate;
+
+--
 -- Name: subdivision_ranking_of(character varying); Type: FUNCTION; Schema: public; Owner: pointercrate
 --
 
@@ -912,7 +933,8 @@ CREATE TABLE public.demon_modifications (
     video character varying(200),
     verifier integer,
     publisher integer,
-    id integer NOT NULL
+    id integer NOT NULL,
+    thumbnail text
 )
 INHERITS (public.audit_log2);
 
@@ -932,6 +954,7 @@ CREATE TABLE public.demons (
     publisher integer NOT NULL,
     id integer NOT NULL,
     level_id bigint,
+    thumbnail text,
     CONSTRAINT valid_record_req CHECK (((requirement >= 0) AND (requirement <= 100)))
 );
 
@@ -2319,6 +2342,13 @@ CREATE TRIGGER demon_addition_trigger AFTER INSERT ON public.demons FOR EACH ROW
 --
 
 CREATE TRIGGER demon_modification_trigger AFTER UPDATE ON public.demons FOR EACH ROW EXECUTE FUNCTION public.audit_demon_modification();
+
+
+--
+-- Name: demons demons_insert_set_thumbnail; Type: TRIGGER; Schema: public; Owner: pointercrate
+--
+
+CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT OR UPDATE ON public.demons FOR EACH ROW EXECUTE FUNCTION public.set_initial_thumbnail();
 
 
 --
