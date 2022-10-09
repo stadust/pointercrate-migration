@@ -689,19 +689,19 @@ ALTER FUNCTION public.diesel_set_updated_at() OWNER TO pointercrate;
 -- Name: list_at(timestamp without time zone); Type: FUNCTION; Schema: public; Owner: pointercrate
 --
 
-CREATE FUNCTION public.list_at(timestamp without time zone) RETURNS TABLE(name public.citext, position_ smallint, requirement smallint, video character varying, verifier integer, publisher integer, id integer, level_id bigint, current_position smallint)
+CREATE FUNCTION public.list_at(timestamp without time zone) RETURNS TABLE(name public.citext, position_ smallint, requirement smallint, video character varying, thumbnail text, verifier integer, publisher integer, id integer, level_id bigint, current_position smallint)
     LANGUAGE sql STABLE
     AS $_$
-    SELECT name, CASE WHEN t.position IS NULL THEN demons.position ELSE t.position END, requirement, video, verifier, publisher, demons.id, level_id, demons.position AS current_position
-    FROM demons
-    LEFT OUTER JOIN (
-            SELECT DISTINCT ON (id) id, position
-            FROM demon_modifications
-            WHERE time >= $1 AND position != -1
-            ORDER BY id, time
-        ) t
-    ON demons.id = t.id
-    WHERE NOT EXISTS (SELECT 1 FROM demon_additions WHERE demon_additions.id = demons.id AND time >= $1)
+SELECT name, CASE WHEN t.position IS NULL THEN demons.position ELSE t.position END, requirement, video, thumbnail, verifier, publisher, demons.id, level_id, demons.position AS current_position
+FROM demons
+         LEFT OUTER JOIN (
+    SELECT DISTINCT ON (id) id, position
+    FROM demon_modifications
+    WHERE time >= $1 AND position != -1
+    ORDER BY id, time
+) t
+                         ON demons.id = t.id
+WHERE NOT EXISTS (SELECT 1 FROM demon_additions WHERE demon_additions.id = demons.id AND time >= $1)
 $_$;
 
 
@@ -758,7 +758,9 @@ CREATE FUNCTION public.set_initial_thumbnail() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    NEW.thumbnail := 'https://i.ytimg.com/vi/' || SUBSTRING(NEW.video FROM '%v=#"___________#"%' FOR '#') || '/mqdefault.jpg';
+    IF NEW.video IS NOT NULL AND NOT EXISTS(SELECT 1 FROM players WHERE players.id=NEW.verifier AND players.link_banned) THEN
+        NEW.thumbnail := 'https://i.ytimg.com/vi/' || SUBSTRING(NEW.video FROM '%v=#"___________#"%' FOR '#') || '/mqdefault.jpg';
+    END IF;
     RETURN NEW;
 END;
 $$;
@@ -954,7 +956,7 @@ CREATE TABLE public.demons (
     publisher integer NOT NULL,
     id integer NOT NULL,
     level_id bigint,
-    thumbnail text,
+    thumbnail text DEFAULT 'https://i.ytimg.com/vi/zebrafishes/mqdefault.jpg'::text NOT NULL,
     CONSTRAINT valid_record_req CHECK (((requirement >= 0) AND (requirement <= 100)))
 );
 
