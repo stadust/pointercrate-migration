@@ -2350,7 +2350,7 @@ CREATE TRIGGER demon_modification_trigger AFTER UPDATE ON public.demons FOR EACH
 -- Name: demons demons_insert_set_thumbnail; Type: TRIGGER; Schema: public; Owner: pointercrate
 --
 
-CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT OR UPDATE ON public.demons FOR EACH ROW EXECUTE FUNCTION public.set_initial_thumbnail();
+CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT ON public.demons FOR EACH ROW EXECUTE FUNCTION public.set_initial_thumbnail();
 
 
 --

@@ -16,7 +16,7 @@ BEGIN
 END;
 ' LANGUAGE plpgsql;
 
-CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT OR UPDATE ON demons FOR
+CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT ON demons FOR
 EACH ROW EXECUTE PROCEDURE set_initial_thumbnail();
 
 -- Your SQL goes here
