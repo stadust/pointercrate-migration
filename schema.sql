@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.3
--- Dumped by pg_dump version 14.3
+-- Dumped from database version 14.6
+-- Dumped by pg_dump version 14.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,14 +24,14 @@ CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
 
 
 --
--- Name: continent; Type: TYPE; Schema: public; Owner: pointercrate
+-- Name: continent; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.continent AS ENUM (
@@ -45,20 +45,16 @@ CREATE TYPE public.continent AS ENUM (
 );
 
 
-ALTER TYPE public.continent OWNER TO pointercrate;
-
 --
--- Name: email; Type: DOMAIN; Schema: public; Owner: pointercrate
+-- Name: email; Type: DOMAIN; Schema: public; Owner: -
 --
 
 CREATE DOMAIN public.email AS public.citext
 	CONSTRAINT email_check CHECK ((VALUE OPERATOR(public.~) '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'::public.citext));
 
 
-ALTER DOMAIN public.email OWNER TO pointercrate;
-
 --
--- Name: record_status; Type: TYPE; Schema: public; Owner: pointercrate
+-- Name: record_status; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.record_status AS ENUM (
@@ -70,10 +66,8 @@ CREATE TYPE public.record_status AS ENUM (
 );
 
 
-ALTER TYPE public.record_status OWNER TO pointercrate;
-
 --
--- Name: audit_creator_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_creator_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_creator_addition() RETURNS trigger
@@ -89,10 +83,8 @@ CREATE FUNCTION public.audit_creator_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_creator_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_creator_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_creator_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_creator_deletion() RETURNS trigger
@@ -108,10 +100,8 @@ CREATE FUNCTION public.audit_creator_deletion() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_creator_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_demon_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_demon_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_demon_addition() RETURNS trigger
@@ -124,10 +114,8 @@ CREATE FUNCTION public.audit_demon_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_demon_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_demon_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_demon_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_demon_modification() RETURNS trigger
@@ -179,10 +167,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_demon_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_level_comment_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_level_comment_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_level_comment_addition() RETURNS trigger
@@ -195,10 +181,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_level_comment_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_level_comment_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_level_comment_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_level_comment_deletion() RETURNS trigger
@@ -217,10 +201,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_level_comment_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_level_comment_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_level_comment_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_level_comment_modification() RETURNS trigger
@@ -252,10 +234,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_level_comment_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_player_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_player_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_player_addition() RETURNS trigger
@@ -270,10 +250,8 @@ CREATE FUNCTION public.audit_player_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_player_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_player_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_player_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_player_deletion() RETURNS trigger
@@ -292,10 +270,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_player_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_player_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_player_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_player_modification() RETURNS trigger
@@ -331,10 +307,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_player_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_record_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_addition() RETURNS trigger
@@ -347,10 +321,8 @@ CREATE FUNCTION public.audit_record_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_record_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_deletion() RETURNS trigger
@@ -369,10 +341,8 @@ CREATE FUNCTION public.audit_record_deletion() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_record_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_modification() RETURNS trigger
@@ -414,10 +384,8 @@ CREATE FUNCTION public.audit_record_modification() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_record_notes_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_notes_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_notes_addition() RETURNS trigger
@@ -430,10 +398,8 @@ CREATE FUNCTION public.audit_record_notes_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_notes_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_record_notes_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_notes_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_notes_deletion() RETURNS trigger
@@ -451,10 +417,8 @@ CREATE FUNCTION public.audit_record_notes_deletion() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_notes_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_record_notes_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_record_notes_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_record_notes_modification() RETURNS trigger
@@ -480,10 +444,8 @@ CREATE FUNCTION public.audit_record_notes_modification() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_record_notes_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_submitter_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_submitter_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_submitter_modification() RETURNS trigger
@@ -504,10 +466,8 @@ CREATE FUNCTION public.audit_submitter_modification() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_submitter_modification() OWNER TO pointercrate;
-
 --
--- Name: audit_user_addition(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_user_addition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_user_addition() RETURNS trigger
@@ -522,10 +482,8 @@ CREATE FUNCTION public.audit_user_addition() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_user_addition() OWNER TO pointercrate;
-
 --
--- Name: audit_user_deletion(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_user_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_user_deletion() RETURNS trigger
@@ -544,10 +502,8 @@ CREATE FUNCTION public.audit_user_deletion() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION public.audit_user_deletion() OWNER TO pointercrate;
-
 --
--- Name: audit_user_modification(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: audit_user_modification(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.audit_user_modification() RETURNS trigger
@@ -578,14 +534,12 @@ END;
 $$;
 
 
-ALTER FUNCTION public.audit_user_modification() OWNER TO pointercrate;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: records; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: records; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.records (
@@ -600,10 +554,8 @@ CREATE TABLE public.records (
 );
 
 
-ALTER TABLE public.records OWNER TO pointercrate;
-
 --
--- Name: best_records_in(character varying); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: best_records_in(character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.best_records_in(country character varying) RETURNS TABLE("like" public.records)
@@ -623,10 +575,8 @@ CREATE FUNCTION public.best_records_in(country character varying) RETURNS TABLE(
 $$;
 
 
-ALTER FUNCTION public.best_records_in(country character varying) OWNER TO pointercrate;
-
 --
--- Name: best_records_local(character varying, character varying); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: best_records_local(character varying, character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.best_records_local(country character varying, the_subdivision character varying) RETURNS TABLE("like" public.records)
@@ -646,10 +596,8 @@ WHERE rk = 1;
 $$;
 
 
-ALTER FUNCTION public.best_records_local(country character varying, the_subdivision character varying) OWNER TO pointercrate;
-
 --
--- Name: diesel_manage_updated_at(regclass); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: diesel_manage_updated_at(regclass); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.diesel_manage_updated_at(_tbl regclass) RETURNS void
@@ -662,10 +610,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.diesel_manage_updated_at(_tbl regclass) OWNER TO pointercrate;
-
 --
--- Name: diesel_set_updated_at(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: diesel_set_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.diesel_set_updated_at() RETURNS trigger
@@ -683,10 +629,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.diesel_set_updated_at() OWNER TO pointercrate;
-
 --
--- Name: list_at(timestamp without time zone); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: list_at(timestamp without time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.list_at(timestamp without time zone) RETURNS TABLE(name public.citext, position_ smallint, requirement smallint, video character varying, thumbnail text, verifier integer, publisher integer, id integer, level_id bigint, current_position smallint)
@@ -705,10 +649,8 @@ WHERE NOT EXISTS (SELECT 1 FROM demon_additions WHERE demon_additions.id = demon
 $_$;
 
 
-ALTER FUNCTION public.list_at(timestamp without time zone) OWNER TO pointercrate;
-
 --
--- Name: record_score(double precision, double precision, double precision, double precision); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: record_score(double precision, double precision, double precision, double precision); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.record_score(progress double precision, demon double precision, list_size double precision, requirement double precision) RETURNS double precision
@@ -719,7 +661,7 @@ SELECT CASE
                    CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)
+                            (56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)) + 6.273
                        WHEN 35 < demon AND demon <= 55 THEN
                             212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071
                        WHEN 20 < demon AND demon <= 35 THEN
@@ -735,7 +677,7 @@ SELECT CASE
                        CASE
                        
                        WHEN 55 < demon AND demon <= 150 THEN
-                            56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
+                            ((56.191 * EXP(LN(2) * ((54.147 - (demon + 3.2)) * LN(50.0)) / 99.0)) + 6.273) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN 35 < demon AND demon <= 55 THEN
                             (212.61 * (EXP(LN(1.036) * (1 - demon))) + 25.071) * (EXP(LN(5) * (progress - requirement) / (100 - requirement))) / 10
                        WHEN 20 < demon AND demon <= 35 THEN
@@ -748,10 +690,8 @@ SELECT CASE
 $$;
 
 
-ALTER FUNCTION public.record_score(progress double precision, demon double precision, list_size double precision, requirement double precision) OWNER TO pointercrate;
-
 --
--- Name: set_initial_thumbnail(); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: set_initial_thumbnail(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.set_initial_thumbnail() RETURNS trigger
@@ -766,10 +706,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.set_initial_thumbnail() OWNER TO pointercrate;
-
 --
--- Name: subdivision_ranking_of(character varying); Type: FUNCTION; Schema: public; Owner: pointercrate
+-- Name: subdivision_ranking_of(character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.subdivision_ranking_of(country character varying) RETURNS TABLE(rank bigint, score double precision, subdivision_code character varying, name text)
@@ -814,10 +752,8 @@ CREATE FUNCTION public.subdivision_ranking_of(country character varying) RETURNS
     $$;
 
 
-ALTER FUNCTION public.subdivision_ranking_of(country character varying) OWNER TO pointercrate;
-
 --
--- Name: __diesel_schema_migrations; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: __diesel_schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.__diesel_schema_migrations (
@@ -826,10 +762,22 @@ CREATE TABLE public.__diesel_schema_migrations (
 );
 
 
-ALTER TABLE public.__diesel_schema_migrations OWNER TO pointercrate;
+--
+-- Name: _sqlx_migrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public._sqlx_migrations (
+    version bigint NOT NULL,
+    description text NOT NULL,
+    installed_on timestamp with time zone DEFAULT now() NOT NULL,
+    success boolean NOT NULL,
+    checksum bytea NOT NULL,
+    execution_time bigint NOT NULL
+);
+
 
 --
--- Name: active_user; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: active_user; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.active_user (
@@ -837,10 +785,8 @@ CREATE TABLE public.active_user (
 );
 
 
-ALTER TABLE public.active_user OWNER TO pointercrate;
-
 --
--- Name: audit_log2; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: audit_log2; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.audit_log2 (
@@ -850,10 +796,8 @@ CREATE TABLE public.audit_log2 (
 );
 
 
-ALTER TABLE public.audit_log2 OWNER TO pointercrate;
-
 --
--- Name: audit_log2_audit_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: audit_log2_audit_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.audit_log2_audit_id_seq
@@ -865,17 +809,15 @@ CREATE SEQUENCE public.audit_log2_audit_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.audit_log2_audit_id_seq OWNER TO pointercrate;
-
 --
--- Name: audit_log2_audit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: audit_log2_audit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.audit_log2_audit_id_seq OWNED BY public.audit_log2.audit_id;
 
 
 --
--- Name: creator_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: creator_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.creator_additions (
@@ -885,10 +827,8 @@ CREATE TABLE public.creator_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.creator_additions OWNER TO pointercrate;
-
 --
--- Name: creator_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: creator_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.creator_deletions (
@@ -898,10 +838,8 @@ CREATE TABLE public.creator_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.creator_deletions OWNER TO pointercrate;
-
 --
--- Name: creators; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: creators; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.creators (
@@ -910,10 +848,8 @@ CREATE TABLE public.creators (
 );
 
 
-ALTER TABLE public.creators OWNER TO pointercrate;
-
 --
--- Name: demon_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: demon_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.demon_additions (
@@ -922,10 +858,8 @@ CREATE TABLE public.demon_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.demon_additions OWNER TO pointercrate;
-
 --
--- Name: demon_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: demon_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.demon_modifications (
@@ -941,10 +875,8 @@ CREATE TABLE public.demon_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.demon_modifications OWNER TO pointercrate;
-
 --
--- Name: demons; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: demons; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.demons (
@@ -961,10 +893,8 @@ CREATE TABLE public.demons (
 );
 
 
-ALTER TABLE public.demons OWNER TO pointercrate;
-
 --
--- Name: demons_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: demons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.demons_id_seq
@@ -976,17 +906,15 @@ CREATE SEQUENCE public.demons_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.demons_id_seq OWNER TO pointercrate;
-
 --
--- Name: demons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: demons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.demons_id_seq OWNED BY public.demons.id;
 
 
 --
--- Name: download_lock; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: download_lock; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.download_lock (
@@ -994,10 +922,8 @@ CREATE TABLE public.download_lock (
 );
 
 
-ALTER TABLE public.download_lock OWNER TO pointercrate;
-
 --
--- Name: gj_creator; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_creator; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_creator (
@@ -1007,10 +933,8 @@ CREATE TABLE public.gj_creator (
 );
 
 
-ALTER TABLE public.gj_creator OWNER TO pointercrate;
-
 --
--- Name: gj_creator_meta; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_creator_meta; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_creator_meta (
@@ -1020,10 +944,8 @@ CREATE TABLE public.gj_creator_meta (
 );
 
 
-ALTER TABLE public.gj_creator_meta OWNER TO pointercrate;
-
 --
--- Name: gj_level; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level (
@@ -1054,10 +976,8 @@ CREATE TABLE public.gj_level (
 );
 
 
-ALTER TABLE public.gj_level OWNER TO pointercrate;
-
 --
--- Name: gj_level_data; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level_data; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level_data (
@@ -1070,10 +990,8 @@ CREATE TABLE public.gj_level_data (
 );
 
 
-ALTER TABLE public.gj_level_data OWNER TO pointercrate;
-
 --
--- Name: gj_level_data_meta; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level_data_meta; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level_data_meta (
@@ -1083,10 +1001,8 @@ CREATE TABLE public.gj_level_data_meta (
 );
 
 
-ALTER TABLE public.gj_level_data_meta OWNER TO pointercrate;
-
 --
--- Name: gj_level_meta; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level_meta; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level_meta (
@@ -1096,10 +1012,8 @@ CREATE TABLE public.gj_level_meta (
 );
 
 
-ALTER TABLE public.gj_level_meta OWNER TO pointercrate;
-
 --
--- Name: gj_level_request_meta; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level_request_meta; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level_request_meta (
@@ -1109,10 +1023,8 @@ CREATE TABLE public.gj_level_request_meta (
 );
 
 
-ALTER TABLE public.gj_level_request_meta OWNER TO pointercrate;
-
 --
--- Name: gj_level_request_results; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_level_request_results; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_level_request_results (
@@ -1121,10 +1033,8 @@ CREATE TABLE public.gj_level_request_results (
 );
 
 
-ALTER TABLE public.gj_level_request_results OWNER TO pointercrate;
-
 --
--- Name: gj_newgrounds_song; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_newgrounds_song; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_newgrounds_song (
@@ -1140,10 +1050,8 @@ CREATE TABLE public.gj_newgrounds_song (
 );
 
 
-ALTER TABLE public.gj_newgrounds_song OWNER TO pointercrate;
-
 --
--- Name: gj_newgrounds_song_meta; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: gj_newgrounds_song_meta; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gj_newgrounds_song_meta (
@@ -1153,10 +1061,8 @@ CREATE TABLE public.gj_newgrounds_song_meta (
 );
 
 
-ALTER TABLE public.gj_newgrounds_song_meta OWNER TO pointercrate;
-
 --
--- Name: level_comment_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: level_comment_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.level_comment_additions (
@@ -1165,10 +1071,8 @@ CREATE TABLE public.level_comment_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.level_comment_additions OWNER TO pointercrate;
-
 --
--- Name: level_comment_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: level_comment_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.level_comment_deletions (
@@ -1177,10 +1081,8 @@ CREATE TABLE public.level_comment_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.level_comment_deletions OWNER TO pointercrate;
-
 --
--- Name: level_comment_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: level_comment_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.level_comment_modifications (
@@ -1192,10 +1094,8 @@ CREATE TABLE public.level_comment_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.level_comment_modifications OWNER TO pointercrate;
-
 --
--- Name: level_comments; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: level_comments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.level_comments (
@@ -1207,10 +1107,8 @@ CREATE TABLE public.level_comments (
 );
 
 
-ALTER TABLE public.level_comments OWNER TO pointercrate;
-
 --
--- Name: level_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: level_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.level_comments_id_seq
@@ -1222,17 +1120,15 @@ CREATE SEQUENCE public.level_comments_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.level_comments_id_seq OWNER TO pointercrate;
-
 --
--- Name: level_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: level_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.level_comments_id_seq OWNED BY public.level_comments.id;
 
 
 --
--- Name: members; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: members; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.members (
@@ -1247,10 +1143,8 @@ CREATE TABLE public.members (
 );
 
 
-ALTER TABLE public.members OWNER TO pointercrate;
-
 --
--- Name: members_member_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: members_member_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.members_member_id_seq
@@ -1262,17 +1156,15 @@ CREATE SEQUENCE public.members_member_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.members_member_id_seq OWNER TO pointercrate;
-
 --
--- Name: members_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: members_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.members_member_id_seq OWNED BY public.members.member_id;
 
 
 --
--- Name: nationalities; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: nationalities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.nationalities (
@@ -1283,10 +1175,8 @@ CREATE TABLE public.nationalities (
 );
 
 
-ALTER TABLE public.nationalities OWNER TO pointercrate;
-
 --
--- Name: players; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: players; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.players (
@@ -1299,10 +1189,8 @@ CREATE TABLE public.players (
 );
 
 
-ALTER TABLE public.players OWNER TO pointercrate;
-
 --
--- Name: nations_with_score; Type: VIEW; Schema: public; Owner: pointercrate
+-- Name: nations_with_score; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW public.nations_with_score AS
@@ -1339,10 +1227,8 @@ CREATE VIEW public.nations_with_score AS
      JOIN public.nationalities ON (((nationalities.iso_country_code)::text = (scores.nationality)::text)));
 
 
-ALTER TABLE public.nations_with_score OWNER TO pointercrate;
-
 --
--- Name: player_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: player_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.player_additions (
@@ -1351,10 +1237,8 @@ CREATE TABLE public.player_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.player_additions OWNER TO pointercrate;
-
 --
--- Name: player_claims; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: player_claims; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.player_claims (
@@ -1366,10 +1250,8 @@ CREATE TABLE public.player_claims (
 );
 
 
-ALTER TABLE public.player_claims OWNER TO pointercrate;
-
 --
--- Name: player_claims_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: player_claims_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.player_claims_id_seq
@@ -1381,17 +1263,15 @@ CREATE SEQUENCE public.player_claims_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.player_claims_id_seq OWNER TO pointercrate;
-
 --
--- Name: player_claims_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: player_claims_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.player_claims_id_seq OWNED BY public.player_claims.id;
 
 
 --
--- Name: player_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: player_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.player_deletions (
@@ -1400,10 +1280,8 @@ CREATE TABLE public.player_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.player_deletions OWNER TO pointercrate;
-
 --
--- Name: player_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: player_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.player_modifications (
@@ -1416,10 +1294,8 @@ CREATE TABLE public.player_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.player_modifications OWNER TO pointercrate;
-
 --
--- Name: players_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: players_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.players_id_seq
@@ -1431,17 +1307,15 @@ CREATE SEQUENCE public.players_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.players_id_seq OWNER TO pointercrate;
-
 --
--- Name: players_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: players_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.players_id_seq OWNED BY public.players.id;
 
 
 --
--- Name: players_with_score; Type: VIEW; Schema: public; Owner: pointercrate
+-- Name: players_with_score; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW public.players_with_score AS
@@ -1496,10 +1370,8 @@ CREATE VIEW public.players_with_score AS
   WHERE ((NOT players.banned) AND (players.id <> 1534));
 
 
-ALTER TABLE public.players_with_score OWNER TO pointercrate;
-
 --
--- Name: record_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_additions (
@@ -1508,10 +1380,8 @@ CREATE TABLE public.record_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_additions OWNER TO pointercrate;
-
 --
--- Name: record_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_deletions (
@@ -1520,10 +1390,8 @@ CREATE TABLE public.record_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_deletions OWNER TO pointercrate;
-
 --
--- Name: record_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_modifications (
@@ -1537,10 +1405,8 @@ CREATE TABLE public.record_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_modifications OWNER TO pointercrate;
-
 --
--- Name: record_notes; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_notes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_notes (
@@ -1551,10 +1417,8 @@ CREATE TABLE public.record_notes (
 );
 
 
-ALTER TABLE public.record_notes OWNER TO pointercrate;
-
 --
--- Name: record_notes_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_notes_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_notes_additions (
@@ -1563,10 +1427,8 @@ CREATE TABLE public.record_notes_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_notes_additions OWNER TO pointercrate;
-
 --
--- Name: record_notes_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_notes_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_notes_deletions (
@@ -1575,10 +1437,8 @@ CREATE TABLE public.record_notes_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_notes_deletions OWNER TO pointercrate;
-
 --
--- Name: record_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: record_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.record_notes_id_seq
@@ -1590,17 +1450,15 @@ CREATE SEQUENCE public.record_notes_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.record_notes_id_seq OWNER TO pointercrate;
-
 --
--- Name: record_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: record_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.record_notes_id_seq OWNED BY public.record_notes.id;
 
 
 --
--- Name: record_notes_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: record_notes_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.record_notes_modifications (
@@ -1611,10 +1469,8 @@ CREATE TABLE public.record_notes_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.record_notes_modifications OWNER TO pointercrate;
-
 --
--- Name: records_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: records_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.records_id_seq
@@ -1626,17 +1482,15 @@ CREATE SEQUENCE public.records_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.records_id_seq OWNER TO pointercrate;
-
 --
--- Name: records_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: records_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.records_id_seq OWNED BY public.records.id;
 
 
 --
--- Name: subdivisions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: subdivisions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.subdivisions (
@@ -1646,10 +1500,8 @@ CREATE TABLE public.subdivisions (
 );
 
 
-ALTER TABLE public.subdivisions OWNER TO pointercrate;
-
 --
--- Name: submitter_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: submitter_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.submitter_modifications (
@@ -1659,10 +1511,8 @@ CREATE TABLE public.submitter_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.submitter_modifications OWNER TO pointercrate;
-
 --
--- Name: submitters; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: submitters; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.submitters (
@@ -1672,10 +1522,8 @@ CREATE TABLE public.submitters (
 );
 
 
-ALTER TABLE public.submitters OWNER TO pointercrate;
-
 --
--- Name: submitters_submitter_id_seq; Type: SEQUENCE; Schema: public; Owner: pointercrate
+-- Name: submitters_submitter_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.submitters_submitter_id_seq
@@ -1687,17 +1535,15 @@ CREATE SEQUENCE public.submitters_submitter_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.submitters_submitter_id_seq OWNER TO pointercrate;
-
 --
--- Name: submitters_submitter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pointercrate
+-- Name: submitters_submitter_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.submitters_submitter_id_seq OWNED BY public.submitters.submitter_id;
 
 
 --
--- Name: user_additions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: user_additions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_additions (
@@ -1706,10 +1552,8 @@ CREATE TABLE public.user_additions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.user_additions OWNER TO pointercrate;
-
 --
--- Name: user_deletions; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: user_deletions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_deletions (
@@ -1718,10 +1562,8 @@ CREATE TABLE public.user_deletions (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.user_deletions OWNER TO pointercrate;
-
 --
--- Name: user_modifications; Type: TABLE; Schema: public; Owner: pointercrate
+-- Name: user_modifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_modifications (
@@ -1733,353 +1575,351 @@ CREATE TABLE public.user_modifications (
 INHERITS (public.audit_log2);
 
 
-ALTER TABLE public.user_modifications OWNER TO pointercrate;
-
 --
--- Name: audit_log2 audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: audit_log2 audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.audit_log2 ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: creator_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: creator_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creator_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: creator_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: creator_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creator_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: creator_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: creator_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creator_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: creator_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: creator_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creator_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: demon_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: demon_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demon_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: demon_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: demon_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demon_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: demon_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: demon_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demon_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: demon_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: demon_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demon_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: demons id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: demons id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons ALTER COLUMN id SET DEFAULT nextval('public.demons_id_seq'::regclass);
 
 
 --
--- Name: level_comment_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: level_comment_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: level_comment_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: level_comment_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: level_comment_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: level_comment_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comment_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comment_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: level_comments id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: level_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comments ALTER COLUMN id SET DEFAULT nextval('public.level_comments_id_seq'::regclass);
 
 
 --
--- Name: members member_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: members member_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.members ALTER COLUMN member_id SET DEFAULT nextval('public.members_member_id_seq'::regclass);
 
 
 --
--- Name: player_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: player_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: player_claims id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_claims id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_claims ALTER COLUMN id SET DEFAULT nextval('public.player_claims_id_seq'::regclass);
 
 
 --
--- Name: player_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: player_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: player_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: player_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: player_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: players id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: players id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.players ALTER COLUMN id SET DEFAULT nextval('public.players_id_seq'::regclass);
 
 
 --
--- Name: record_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: record_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: record_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: record_notes id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes ALTER COLUMN id SET DEFAULT nextval('public.record_notes_id_seq'::regclass);
 
 
 --
--- Name: record_notes_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_notes_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: record_notes_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_notes_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: record_notes_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: record_notes_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: record_notes_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: records id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: records id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records ALTER COLUMN id SET DEFAULT nextval('public.records_id_seq'::regclass);
 
 
 --
--- Name: submitter_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: submitter_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.submitter_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: submitter_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: submitter_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.submitter_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: submitters submitter_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: submitters submitter_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.submitters ALTER COLUMN submitter_id SET DEFAULT nextval('public.submitters_submitter_id_seq'::regclass);
 
 
 --
--- Name: user_additions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_additions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_additions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: user_additions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_additions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_additions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: user_deletions time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_deletions time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_deletions ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: user_deletions audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_deletions audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_deletions ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: user_modifications time; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_modifications time; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_modifications ALTER COLUMN "time" SET DEFAULT (now() AT TIME ZONE 'utc'::text);
 
 
 --
--- Name: user_modifications audit_id; Type: DEFAULT; Schema: public; Owner: pointercrate
+-- Name: user_modifications audit_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_modifications ALTER COLUMN audit_id SET DEFAULT nextval('public.audit_log2_audit_id_seq'::regclass);
 
 
 --
--- Name: __diesel_schema_migrations __diesel_schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: __diesel_schema_migrations __diesel_schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.__diesel_schema_migrations
@@ -2087,7 +1927,15 @@ ALTER TABLE ONLY public.__diesel_schema_migrations
 
 
 --
--- Name: active_user active_user_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: _sqlx_migrations _sqlx_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public._sqlx_migrations
+    ADD CONSTRAINT _sqlx_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: active_user active_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.active_user
@@ -2095,7 +1943,7 @@ ALTER TABLE ONLY public.active_user
 
 
 --
--- Name: audit_log2 audit_log2_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: audit_log2 audit_log2_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.audit_log2
@@ -2103,7 +1951,7 @@ ALTER TABLE ONLY public.audit_log2
 
 
 --
--- Name: creators creators_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: creators creators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creators
@@ -2111,7 +1959,7 @@ ALTER TABLE ONLY public.creators
 
 
 --
--- Name: demons demons_level_id_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons demons_level_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2119,7 +1967,7 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: demons demons_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons demons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2127,7 +1975,7 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: gj_creator_meta gj_creator_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_creator_meta gj_creator_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_creator_meta
@@ -2135,7 +1983,7 @@ ALTER TABLE ONLY public.gj_creator_meta
 
 
 --
--- Name: gj_creator gj_creator_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_creator gj_creator_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_creator
@@ -2143,7 +1991,7 @@ ALTER TABLE ONLY public.gj_creator
 
 
 --
--- Name: gj_level_data_meta gj_level_data_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level_data_meta gj_level_data_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level_data_meta
@@ -2151,7 +1999,7 @@ ALTER TABLE ONLY public.gj_level_data_meta
 
 
 --
--- Name: gj_level_data gj_level_data_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level_data gj_level_data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level_data
@@ -2159,7 +2007,7 @@ ALTER TABLE ONLY public.gj_level_data
 
 
 --
--- Name: gj_level_meta gj_level_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level_meta gj_level_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level_meta
@@ -2167,7 +2015,7 @@ ALTER TABLE ONLY public.gj_level_meta
 
 
 --
--- Name: gj_level gj_level_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level gj_level_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level
@@ -2175,7 +2023,7 @@ ALTER TABLE ONLY public.gj_level
 
 
 --
--- Name: gj_level_request_meta gj_level_request_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level_request_meta gj_level_request_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level_request_meta
@@ -2183,7 +2031,7 @@ ALTER TABLE ONLY public.gj_level_request_meta
 
 
 --
--- Name: gj_newgrounds_song_meta gj_newgrounds_song_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_newgrounds_song_meta gj_newgrounds_song_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_newgrounds_song_meta
@@ -2191,7 +2039,7 @@ ALTER TABLE ONLY public.gj_newgrounds_song_meta
 
 
 --
--- Name: gj_newgrounds_song gj_newgrounds_song_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_newgrounds_song gj_newgrounds_song_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_newgrounds_song
@@ -2199,7 +2047,7 @@ ALTER TABLE ONLY public.gj_newgrounds_song
 
 
 --
--- Name: level_comments level_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: level_comments level_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comments
@@ -2207,7 +2055,7 @@ ALTER TABLE ONLY public.level_comments
 
 
 --
--- Name: members members_name_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: members members_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.members
@@ -2215,7 +2063,7 @@ ALTER TABLE ONLY public.members
 
 
 --
--- Name: members members_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: members members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.members
@@ -2223,7 +2071,7 @@ ALTER TABLE ONLY public.members
 
 
 --
--- Name: nationalities nationalities_nation_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: nationalities nationalities_nation_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.nationalities
@@ -2231,7 +2079,7 @@ ALTER TABLE ONLY public.nationalities
 
 
 --
--- Name: nationalities nationalities_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: nationalities nationalities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.nationalities
@@ -2239,7 +2087,7 @@ ALTER TABLE ONLY public.nationalities
 
 
 --
--- Name: player_claims player_claims_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: player_claims player_claims_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_claims
@@ -2247,7 +2095,7 @@ ALTER TABLE ONLY public.player_claims
 
 
 --
--- Name: players players_name_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: players players_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.players
@@ -2255,7 +2103,7 @@ ALTER TABLE ONLY public.players
 
 
 --
--- Name: players players_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: players players_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.players
@@ -2263,7 +2111,7 @@ ALTER TABLE ONLY public.players
 
 
 --
--- Name: record_notes record_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: record_notes record_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes
@@ -2271,7 +2119,7 @@ ALTER TABLE ONLY public.record_notes
 
 
 --
--- Name: records records_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: records records_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records
@@ -2279,7 +2127,7 @@ ALTER TABLE ONLY public.records
 
 
 --
--- Name: records records_video_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: records records_video_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records
@@ -2287,7 +2135,7 @@ ALTER TABLE ONLY public.records
 
 
 --
--- Name: subdivisions subdivisions_name_key; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: subdivisions subdivisions_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subdivisions
@@ -2295,7 +2143,7 @@ ALTER TABLE ONLY public.subdivisions
 
 
 --
--- Name: subdivisions subdivisions_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: subdivisions subdivisions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subdivisions
@@ -2303,7 +2151,7 @@ ALTER TABLE ONLY public.subdivisions
 
 
 --
--- Name: submitters submitters_pkey; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: submitters submitters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.submitters
@@ -2311,7 +2159,7 @@ ALTER TABLE ONLY public.submitters
 
 
 --
--- Name: demons unique_position; Type: CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons unique_position; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2319,154 +2167,154 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: creators creator_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: creators creator_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER creator_addition_trigger AFTER INSERT ON public.creators FOR EACH ROW EXECUTE FUNCTION public.audit_creator_addition();
 
 
 --
--- Name: creators creator_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: creators creator_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER creator_deletion_trigger AFTER DELETE ON public.creators FOR EACH ROW EXECUTE FUNCTION public.audit_creator_deletion();
 
 
 --
--- Name: demons demon_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: demons demon_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER demon_addition_trigger AFTER INSERT ON public.demons FOR EACH ROW EXECUTE FUNCTION public.audit_demon_addition();
 
 
 --
--- Name: demons demon_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: demons demon_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER demon_modification_trigger AFTER UPDATE ON public.demons FOR EACH ROW EXECUTE FUNCTION public.audit_demon_modification();
 
 
 --
--- Name: demons demons_insert_set_thumbnail; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: demons demons_insert_set_thumbnail; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER demons_insert_set_thumbnail BEFORE INSERT ON public.demons FOR EACH ROW EXECUTE FUNCTION public.set_initial_thumbnail();
 
 
 --
--- Name: level_comments level_comment_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: level_comments level_comment_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER level_comment_addition_trigger AFTER INSERT ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_addition();
 
 
 --
--- Name: level_comments level_comment_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: level_comments level_comment_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER level_comment_deletion_trigger AFTER DELETE ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_deletion();
 
 
 --
--- Name: level_comments level_comment_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: level_comments level_comment_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER level_comment_modification_trigger AFTER UPDATE ON public.level_comments FOR EACH ROW EXECUTE FUNCTION public.audit_level_comment_modification();
 
 
 --
--- Name: players player_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: players player_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER player_addition_trigger AFTER INSERT ON public.players FOR EACH ROW EXECUTE FUNCTION public.audit_player_addition();
 
 
 --
--- Name: players player_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: players player_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER player_deletion_trigger AFTER DELETE ON public.players FOR EACH ROW EXECUTE FUNCTION public.audit_player_deletion();
 
 
 --
--- Name: players player_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: players player_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER player_modification_trigger AFTER UPDATE ON public.players FOR EACH ROW EXECUTE FUNCTION public.audit_player_modification();
 
 
 --
--- Name: records record_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: records record_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_addition_trigger AFTER INSERT ON public.records FOR EACH ROW EXECUTE FUNCTION public.audit_record_addition();
 
 
 --
--- Name: records record_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: records record_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_deletion_trigger AFTER DELETE ON public.records FOR EACH ROW EXECUTE FUNCTION public.audit_record_deletion();
 
 
 --
--- Name: records record_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: records record_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_modification_trigger AFTER UPDATE ON public.records FOR EACH ROW EXECUTE FUNCTION public.audit_record_modification();
 
 
 --
--- Name: record_notes record_note_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: record_notes record_note_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_note_addition_trigger AFTER INSERT ON public.record_notes FOR EACH ROW EXECUTE FUNCTION public.audit_record_notes_addition();
 
 
 --
--- Name: record_notes record_note_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: record_notes record_note_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_note_deletion_trigger AFTER DELETE ON public.record_notes FOR EACH ROW EXECUTE FUNCTION public.audit_record_notes_modification();
 
 
 --
--- Name: record_notes record_note_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: record_notes record_note_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER record_note_modification_trigger AFTER UPDATE ON public.record_notes FOR EACH ROW EXECUTE FUNCTION public.audit_record_notes_modification();
 
 
 --
--- Name: submitters submitter_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: submitters submitter_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER submitter_modification_trigger AFTER UPDATE ON public.submitters FOR EACH ROW EXECUTE FUNCTION public.audit_submitter_modification();
 
 
 --
--- Name: members user_addition_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: members user_addition_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER user_addition_trigger AFTER INSERT ON public.members FOR EACH ROW EXECUTE FUNCTION public.audit_user_addition();
 
 
 --
--- Name: members user_deletion_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: members user_deletion_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER user_deletion_trigger AFTER DELETE ON public.members FOR EACH ROW EXECUTE FUNCTION public.audit_user_deletion();
 
 
 --
--- Name: members user_modification_trigger; Type: TRIGGER; Schema: public; Owner: pointercrate
+-- Name: members user_modification_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER user_modification_trigger AFTER UPDATE ON public.members FOR EACH ROW EXECUTE FUNCTION public.audit_user_modification();
 
 
 --
--- Name: creators creators_creator_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: creators creators_creator_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creators
@@ -2474,7 +2322,7 @@ ALTER TABLE ONLY public.creators
 
 
 --
--- Name: creators creators_demon_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: creators creators_demon_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.creators
@@ -2482,7 +2330,7 @@ ALTER TABLE ONLY public.creators
 
 
 --
--- Name: demons demons_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons demons_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2490,7 +2338,7 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: demons demons_publisher_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons demons_publisher_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2498,7 +2346,7 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: demons demons_verifier_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: demons demons_verifier_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.demons
@@ -2506,7 +2354,7 @@ ALTER TABLE ONLY public.demons
 
 
 --
--- Name: gj_level_data gj_level_data_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: gj_level_data gj_level_data_level_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gj_level_data
@@ -2514,7 +2362,7 @@ ALTER TABLE ONLY public.gj_level_data
 
 
 --
--- Name: level_comments level_comments_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: level_comments level_comments_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.level_comments
@@ -2522,7 +2370,7 @@ ALTER TABLE ONLY public.level_comments
 
 
 --
--- Name: members members_nationality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: members members_nationality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.members
@@ -2530,7 +2378,7 @@ ALTER TABLE ONLY public.members
 
 
 --
--- Name: player_claims player_claims_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: player_claims player_claims_member_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_claims
@@ -2538,7 +2386,7 @@ ALTER TABLE ONLY public.player_claims
 
 
 --
--- Name: player_claims player_claims_player_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: player_claims player_claims_player_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.player_claims
@@ -2546,7 +2394,7 @@ ALTER TABLE ONLY public.player_claims
 
 
 --
--- Name: players players_nationality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: players players_nationality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.players
@@ -2554,7 +2402,7 @@ ALTER TABLE ONLY public.players
 
 
 --
--- Name: record_notes record_notes_record_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: record_notes record_notes_record_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_notes
@@ -2562,7 +2410,7 @@ ALTER TABLE ONLY public.record_notes
 
 
 --
--- Name: records records_demon_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: records records_demon_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records
@@ -2570,7 +2418,7 @@ ALTER TABLE ONLY public.records
 
 
 --
--- Name: records records_player_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: records records_player_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records
@@ -2578,7 +2426,7 @@ ALTER TABLE ONLY public.records
 
 
 --
--- Name: records records_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: records records_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.records
@@ -2586,7 +2434,7 @@ ALTER TABLE ONLY public.records
 
 
 --
--- Name: subdivisions subdivisions_nation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: pointercrate
+-- Name: subdivisions subdivisions_nation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subdivisions
